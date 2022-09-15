@@ -1,5 +1,7 @@
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+import requests
+import os
 app = Flask(__name__)
 
 
@@ -19,8 +21,16 @@ def hello():
 
    if name:
        print('Request for hello page received with name=%s' % name)
-       return render_template('hello.html', name = name) 
-        #instead of rendering hello.html I need to call and API 
+
+       response = requests.get('https://adventureapim.azure-api.net/AdventureFunctionApp/GradingTriggerv3?name=1854'), 
+       headers={
+            "Ocp-Apim-Subscription-Key": "ec610f8bddfe41ba80bcdca6ac051ef0"
+         }
+       print(response)
+       #instead of rendering hello.html I need to call and API 
+
+    #  return render_template('hello.html', name = name)
+       return render_template('hello.html', name = name)
    else:
        print('Request for hello page received with no name or blank name -- redirecting')
        return redirect(url_for('index'))
